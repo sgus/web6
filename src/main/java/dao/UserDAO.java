@@ -30,4 +30,5 @@ public interface UserDAO {
 
     void updateUser(User user) throws SQLException;
 
+    void setConnection(Connection connection);
 }

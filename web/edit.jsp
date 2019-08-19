@@ -7,7 +7,7 @@
     <title>edit</title>
 </head>
 <body>
-<form method="get" action="/list/update">
+<form method="post" action="/edit">
     <div style="color: teal; font-size: 20px">Edit user</div>
 
     <a href="/reg">New User</a>

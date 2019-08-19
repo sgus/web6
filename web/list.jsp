@@ -29,7 +29,7 @@
                 <td>${user.rating}</td>
                 <td>
 
-                    <a href="/list/edit?id=<c:out value='${user.id}' />">Edit</a>
+                    <a href="/edit?id=<c:out value='${user.id}' />">Edit</a>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <a href="/list/delete?id=<c:out value='${user.id}' />">Delete</a>
 
