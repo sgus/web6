@@ -14,22 +14,16 @@ import java.util.List;
 
 public interface UserService  {
 
-    public User getUserById(long id);
+    public User getUserById(long id) ;
 
-    public User getUserByLogin(String login);
+    public User getUserByLogin(String login) ;
 
     public List<User> getAllUsers();
 
     public void addUser(User user) ;
 
-    public void cleanUp();
+    public void deleteById(Long id);
 
-    public void createTable() ;
-
-
-
-    public void deleteById(Long id) ;
-
-    public void updateUser(User user) ;
+    public void updateUser(User user);
 
 }

@@ -19,16 +19,24 @@ public class UserDAOJdbcImpl implements UserDAO {
         this.connection = connection;
     }
 
-    public List<User> getAllUsers() throws SQLException {
-        Statement stmt = connection.createStatement();
-        ResultSet resultSet = stmt.executeQuery("SELECT * from users");
+    public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
-        while (resultSet.next()) {
-            users.add(new User(resultSet.getLong(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getString(5), resultSet.getLong(6)));
+        try {
+
+            Statement stmt = null;
+            stmt = connection.createStatement();
+
+            ResultSet resultSet = stmt.executeQuery("SELECT * from users");
+            while (resultSet.next()) {
+                users.add(new User(resultSet.getLong(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getString(5), resultSet.getLong(6)));
+            }
+            stmt.close();
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        stmt.close();
-        resultSet.close();
         return users;
+
     }
 
     public boolean validateUser(String login, String password) throws SQLException {
@@ -57,7 +65,7 @@ public class UserDAOJdbcImpl implements UserDAO {
     }
 
 
-    public void addClient(User user) throws SQLException {
+    public void addClient(User user) {
         try (
                 PreparedStatement preparedStatement = connection.prepareStatement
                         ("INSERT INTO users(id, login,email, password) VALUES (id,?,?,?)");
@@ -66,14 +74,18 @@ public class UserDAOJdbcImpl implements UserDAO {
             preparedStatement.setString(2, user.getEmail());
             preparedStatement.setString(3, user.getPassword());
             preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
-    public void removeUserByLogin(String login) throws SQLException {
+    public void removeUserByLogin(String login) {
         try (
                 PreparedStatement preparedStatement = connection.prepareStatement("delete from users where login=('" + login + "')");
         ) {
             preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -89,7 +101,7 @@ public class UserDAOJdbcImpl implements UserDAO {
         stmt.close();
     }
 
-    public User getUserById(long id) throws SQLException {
+    public User getUserById(long id) {
 
         try (
                 PreparedStatement preparedStatement = connection.prepareStatement
@@ -101,33 +113,42 @@ public class UserDAOJdbcImpl implements UserDAO {
 
             User user = new User(resultSet.getLong(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getString(5), resultSet.getLong(6));
 
-
             resultSet.close();
             return user;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return null;
+
     }
 
-    public User getUserByLogin(String login) throws SQLException {
+    public User getUserByLogin(String login) {
         try (ResultSet resultSet = connection.prepareStatement("SELECT * FROM users where name='" + login + "'").executeQuery()) {
             User user = null;
             while (resultSet.next()) {
                 user = new User(resultSet.getLong(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getString(5), resultSet.getLong(6));
             }
             return (user);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return null;
     }
 
-    public void removeUserById(Long id) throws SQLException {
+    public void removeUserById(Long id) {
         try (
                 PreparedStatement preparedStatement = connection.prepareStatement
                         ("DELETE FROM users where id= ?");
         ) {
             preparedStatement.setLong(1, id);
             preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
-    public void updateUser(User user) throws SQLException {
+    public void updateUser(User user) {
         try (
                 PreparedStatement preparedStatement = connection.prepareStatement
                         ("update users set login = ?,email=?, password=?, `rank`=?, rating=? where id =?");
@@ -140,6 +161,8 @@ public class UserDAOJdbcImpl implements UserDAO {
             preparedStatement.setLong(6, user.getId());
 
             preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

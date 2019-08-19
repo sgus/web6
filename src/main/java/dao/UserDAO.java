@@ -3,32 +3,22 @@ package dao;
 import model.User;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public interface UserDAO {
 
-    List<User> getAllUsers() throws SQLException;
+    List getAllUsers() ;
 
-    boolean validateUser(String login, String password) throws SQLException;
+    void addClient(User user) ;
 
-    boolean checkByLogin(String login) throws SQLException;
+    void removeUserByLogin(String login) ;
 
-    void addClient(User user) throws SQLException;
+    User getUserById(long id) ;
 
-    void removeUserByLogin(String login) throws SQLException;
+    User getUserByLogin(String login) ;
 
-    void createTable() throws SQLException;
+    void removeUserById(Long id) ;
 
-    void dropTable() throws SQLException;
+    void updateUser(User user)  ;
 
-    User getUserById(long id) throws SQLException;
-
-    User getUserByLogin(String login) throws SQLException;
-
-    void removeUserById(Long id) throws SQLException;
-
-    void updateUser(User user) throws SQLException;
-
-    void setConnection(Connection connection);
 }

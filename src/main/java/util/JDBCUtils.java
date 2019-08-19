@@ -8,10 +8,10 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class MySQLConnUtils {
+public class JDBCUtils {
     private static Connection connection;
 
-    public MySQLConnUtils() {
+    public JDBCUtils() {
         connection = getMysqlConnection();
     }
 

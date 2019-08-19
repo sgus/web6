@@ -2,7 +2,7 @@ package servlet;
 
 import model.User;
 import service.UserService;
-import service.impl.UserServiceJdbc;
+import service.impl.UserServiceJdbcImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,21 +15,20 @@ import java.io.IOException;
 @WebServlet("/edit")
 public class EditServlet extends HttpServlet
 {
-    UserService userService = new UserServiceJdbc();
+    UserService userService = new UserServiceJdbcImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        if (isLong(req.getParameter("id"))){
+        try {
             Long id = Long.valueOf(req.getParameter("id"));
-            System.out.println(Long.valueOf(req.getParameter("id")));
             User user = userService.getUserById(id);
-            System.out.println(user);
             req.setAttribute("user", user);
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/edit.jsp");
             dispatcher.forward(req, resp);
-        } else {
+
+        } catch (NumberFormatException | NullPointerException nfe) {
             resp.sendRedirect("/list");
+
         }
 
     }
@@ -42,13 +41,6 @@ public class EditServlet extends HttpServlet
 
     }
 
-    public static boolean isLong(String strNum) {
-        try {
-            double d = Long.parseLong(strNum);
-        } catch (NumberFormatException | NullPointerException nfe) {
-            return false;
-        }
-        return true;
-    }
+
 
 }
