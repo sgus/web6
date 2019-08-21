@@ -1,0 +1,2 @@
+DAOImplementation = jdbc
+url = jdbc:mysql://localhost:3306/web6_db?user=root&password=1234&useTimezone=true&serverTimezone=UTC&useSSL=false

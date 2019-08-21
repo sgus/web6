@@ -12,7 +12,8 @@ import java.util.List;
 public class UserDAOHibernateImpl implements UserDAO {
     private Session session;
 
-    public UserDAOHibernateImpl(Session session) {
+
+    public void setSession(Session session) {
         this.session = session;
     }
 

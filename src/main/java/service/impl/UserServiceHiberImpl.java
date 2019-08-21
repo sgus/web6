@@ -7,7 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import service.UserService;
-import util.HiberUtils;
+import util.DBHelper;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -24,15 +24,18 @@ public class UserServiceHiberImpl implements UserService {
 
     public static UserService getInstance() {
         if (userService == null) {
-            userService = new UserServiceHiberImpl(HiberUtils.getSessionFactory());
+            userService = new UserServiceHiberImpl(DBHelper.getSessionFactory());
         }
         return userService;
     }
+
     @Override
     public User getUserById(long id) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-         User userById = new UserDAOHibernateImpl(session).getUserById(id);
+        UserDAO userDAO = new UserDAOHibernateImpl();
+        ((UserDAOHibernateImpl) userDAO).setSession(session);
+        User userById = userDAO.getUserById(id);
         transaction.commit();
         session.close();
         return userById;
@@ -42,7 +45,10 @@ public class UserServiceHiberImpl implements UserService {
     public User getUserByLogin(String login) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        User userByLogin = new UserDAOHibernateImpl(session).getUserByLogin(login);
+        UserDAO userDAO = new UserDAOHibernateImpl();
+        ((UserDAOHibernateImpl) userDAO).setSession(session);
+
+        User userByLogin =  userDAO.getUserByLogin(login);
         transaction.commit();
         session.close();
         return userByLogin;
@@ -52,7 +58,9 @@ public class UserServiceHiberImpl implements UserService {
     public List<User> getAllUsers() {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        List<User> allUsers = new UserDAOHibernateImpl(session).getAllUsers();
+        UserDAO userDAO = new UserDAOHibernateImpl();
+        ((UserDAOHibernateImpl) userDAO).setSession(session);
+        List<User> allUsers = userDAO.getAllUsers();
         transaction.commit();
         session.close();
         return allUsers;
@@ -62,18 +70,21 @@ public class UserServiceHiberImpl implements UserService {
     public void addUser(User user) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        new UserDAOHibernateImpl(session).addClient(user);
+        UserDAO userDAO = new UserDAOHibernateImpl();
+        ((UserDAOHibernateImpl) userDAO).setSession(session);
+        userDAO.addClient(user);
         transaction.commit();
         session.close();
     }
-
 
 
     @Override
     public void deleteById(Long id) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        new UserDAOHibernateImpl(session).removeUserById(id);
+        UserDAO userDAO = new UserDAOHibernateImpl();
+        ((UserDAOHibernateImpl) userDAO).setSession(session);
+        userDAO.removeUserById(id);
         transaction.commit();
         session.close();
 
@@ -83,7 +94,9 @@ public class UserServiceHiberImpl implements UserService {
     public void updateUser(User user) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        new UserDAOHibernateImpl(session).updateUser(user);
+        UserDAO userDAO = new UserDAOHibernateImpl();
+        ((UserDAOHibernateImpl) userDAO).setSession(session);
+        userDAO.updateUser(user);
         transaction.commit();
         session.close();
 
