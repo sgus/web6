@@ -3,7 +3,9 @@ package dao;
 import dao.impl.UserDAOHibernateImpl;
 import dao.impl.UserDAOJdbcImpl;
 import org.hibernate.cfg.Configuration;
+import util.DBHelper;
 
+import java.sql.Connection;
 import java.util.Properties;
 
 public abstract class UserDaoFactory {

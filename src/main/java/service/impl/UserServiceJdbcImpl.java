@@ -4,9 +4,8 @@ import dao.UserDAO;
 import dao.impl.UserDAOJdbcImpl;
 import model.User;
 import service.UserService;
-import util.JDBCUtils;
+import util.DBHelper;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class UserServiceJdbcImpl implements UserService {
@@ -31,8 +30,6 @@ public class UserServiceJdbcImpl implements UserService {
 
     }
 
-
-
     public void deleteById(Long id) {
         UserDAO userDAO = getUserDAO();
         userDAO.removeUserById(id);
@@ -45,7 +42,7 @@ public class UserServiceJdbcImpl implements UserService {
 
     private static UserDAO getUserDAO() {
         UserDAO userDAO = new UserDAOJdbcImpl();
-       new UserDAOJdbcImpl().setConnection(new JDBCUtils().getConnection());
+       new UserDAOJdbcImpl().setConnection(DBHelper.getInstance().getConnection());
         return userDAO;
     }
 }

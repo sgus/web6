@@ -24,12 +24,7 @@ public class DBHelper {
     }
 
     private DBHelper() {
-        if(new Properties().getProperty("DAOImplementation").equals("jdbc")) {
-            connection = getJdbcConnection();
-        } else {
-            Configuration configuration = getConfiguration();
-            sessionFactory = createSessionFactory();
-        }
+
     }
 
 //   4)DBHelper - синглтон, у него есть два метода getConnection и getConfiguration которые

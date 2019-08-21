@@ -9,7 +9,6 @@ import org.hibernate.Transaction;
 import service.UserService;
 import util.DBHelper;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class UserServiceHiberImpl implements UserService {

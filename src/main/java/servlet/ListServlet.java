@@ -30,8 +30,6 @@ public class ListServlet extends HttpServlet {
                     userService.deleteById(Long.valueOf(req.getParameter("id")));
                     resp.sendRedirect("/list");
                     break;
-
-
                 case "/update":
                     User user = new User(Long.parseLong(req.getParameter("id")), req.getParameter("login"), req.getParameter("email"), req.getParameter("password"), req.getParameter("rank"), Long.parseLong(req.getParameter("rating")));
                     userService.updateUser(user);
