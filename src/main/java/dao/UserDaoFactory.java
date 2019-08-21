@@ -8,14 +8,25 @@ import util.DBHelper;
 import java.sql.Connection;
 import java.util.Properties;
 
-public abstract class UserDaoFactory {
-    private UserDAO userDAO;
+public class UserDaoFactory implements AbstractDAOFactory {
 
-    public UserDAO getUserDAO() {
+
+    @Override
+    public UserDAO createUserDAOHibernate() {
+        return new UserDAOHibernateImpl();
+    }
+
+    @Override
+    public UserDAO createUserDAOJdbc() {
+        return new UserDAOJdbcImpl();
+    }
+
+    @Override
+    public UserDAO UserDAO() {
         if(new Properties().getProperty("DAOImplementation").equals("jdbc")) {
-            return new UserDAOJdbcImpl();
+            return createUserDAOJdbc();
         } else {
-            return new UserDAOHibernateImpl();
+            return createUserDAOHibernate();
         }
     }
 }

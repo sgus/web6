@@ -1,6 +1,7 @@
 package service.impl;
 
 import dao.UserDAO;
+import dao.UserDaoFactory;
 import dao.impl.UserDAOJdbcImpl;
 import model.User;
 import service.UserService;
@@ -9,6 +10,19 @@ import util.DBHelper;
 import java.util.List;
 
 public class UserServiceJdbcImpl implements UserService {
+
+    private UserDAO userDAO;
+    private static UserService userService;
+    public static UserService getInstance() {
+        if (userService == null) {
+            userService = new UserServiceJdbcImpl();
+        }
+        return userService;
+    }
+
+    private UserServiceJdbcImpl() {
+        this.userDAO = new UserDaoFactory().UserDAO();
+    }
 
     public User getUserById(long id) {
 
@@ -20,8 +34,7 @@ public class UserServiceJdbcImpl implements UserService {
     }
 
     public List<User> getAllUsers() {
-        List<User> allUsers = null;
-        allUsers = getUserDAO().getAllUsers();
+        List<User> allUsers = userDAO.getAllUsers();
         return allUsers;
     }
 
@@ -31,18 +44,14 @@ public class UserServiceJdbcImpl implements UserService {
     }
 
     public void deleteById(Long id) {
-        UserDAO userDAO = getUserDAO();
         userDAO.removeUserById(id);
     }
 
     public void updateUser(User user) {
-        UserDAO userDAO = getUserDAO();
         userDAO.updateUser(user);
     }
 
-    private static UserDAO getUserDAO() {
-        UserDAO userDAO = new UserDAOJdbcImpl();
-       new UserDAOJdbcImpl().setConnection(DBHelper.getInstance().getConnection());
+    private UserDAO getUserDAO() {
         return userDAO;
     }
 }
