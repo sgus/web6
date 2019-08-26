@@ -23,12 +23,14 @@ public class IndexServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = new User(req.getParameter("login"), req.getParameter("password"));
+
         if (!userService.checkUser(user)){
             req.setAttribute("check",false);
             req.getRequestDispatcher("index.jsp").forward(req, resp);
             return;
         }
         User userByLogin = userService.getUserByLogin(user.getLogin());
+        req.getSession().setAttribute("role",user.getRole());
         if (userByLogin.getRole().equals("user")) {
 
             req.getRequestDispatcher("user.jsp").forward(req, resp);

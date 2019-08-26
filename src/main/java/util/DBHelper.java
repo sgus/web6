@@ -32,7 +32,7 @@ public class DBHelper {
     public static Connection getConnection() {
         try {
             DriverManager.registerDriver((Driver) Class.forName("com.mysql.jdbc.Driver").newInstance());
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/web6_db?&useTimezone=true&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true","root","1234");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/web6_db?&useTimezone=true&serverTimezone=UTC&allowPublicKeyRetrieval=true","root","1234");
             return connection;
         } catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
             e.printStackTrace();
