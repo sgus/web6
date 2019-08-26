@@ -1,9 +1,11 @@
 package model;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users",schema = "web6_db")
 public class User {
     @Id
     @Column(name = "id")
@@ -15,20 +17,22 @@ public class User {
     private String email;
     @Column(name = "password")
     private String password;
-    @Column(name = "rank")
-    private String rank;
+    @Column(name = "role" )
+    @ColumnDefault("user")
+    private String role;
     @Column(name = "rating")
+    @ColumnDefault("0")
     private Long rating;
 
     public User() {
     }
 
-    public User(long id, String login, String email, String password, String rank, Long rating) {
+    public User(long id, String login, String email, String password, String role, Long rating) {
         this.id = id;
         this.login = login;
         this.email = email;
         this.password = password;
-        this.rank = rank;
+        this.role = role;
         this.rating = rating;
     }
 
@@ -38,12 +42,30 @@ public class User {
         this.password = password;
     }
 
-    public User(String login, String email, String password, String rank, Long rating) {
+    public User(String login, String email, String password, String role, Long rating) {
         this.login = login;
         this.email = email;
         this.password = password;
-        this.rank = rank;
+        this.role = role;
         this.rating = rating;
+    }
+
+    public User(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
+
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", role='" + role + '\'' +
+                ", rating=" + rating +
+                '}';
     }
 
     public long getId() {
@@ -78,12 +100,12 @@ public class User {
         this.password = password;
     }
 
-    public String getRank() {
-        return rank;
+    public String getRole() {
+        return role;
     }
 
-    public void setRank(String rank) {
-        this.rank = rank;
+    public void setRole(String rank) {
+        this.role = role;
     }
 
     public Long getRating() {

@@ -1,15 +1,7 @@
 package service;
 
-import dao.UserDAO;
-import dao.impl.UserDAOJdbcImpl;
-import exception.DBException;
 import model.User;
 
-import java.lang.reflect.InvocationTargetException;
-import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.List;
 
 public interface UserService {
@@ -25,5 +17,7 @@ public interface UserService {
     public void deleteById(Long id);
 
     public void updateUser(User user);
+
+    public boolean checkUser(User user);
 
 }

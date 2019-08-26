@@ -7,18 +7,21 @@ import java.util.List;
 
 public interface UserDAO {
 
-    List getAllUsers() ;
+    List<User> getAllUsers();
 
-    void addClient(User user) ;
+    void addUser(User user);
 
-    void removeUserByLogin(String login) ;
+    void removeUserByLogin(String login);
 
-    User getUserById(long id) ;
+    User getUserById(long id);
 
-    User getUserByLogin(String login) ;
+    User getUserByLogin(String login);
 
-    void removeUserById(Long id) ;
+    void removeUserById(Long id);
 
-    void updateUser(User user)  ;
+    void updateUser(User user);
+
+    boolean validateUser(User user);
+
 
 }
