@@ -17,7 +17,8 @@ public class IndexServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect("index.jsp");
+        req.getRequestDispatcher("index.jsp").forward(req, resp);
+
     }
 
     @Override
@@ -25,21 +26,13 @@ public class IndexServlet extends HttpServlet {
         User user = new User(req.getParameter("login"), req.getParameter("password"));
 
         if (!userService.checkUser(user)){
-            req.setAttribute("check",false);
             req.getRequestDispatcher("index.jsp").forward(req, resp);
             return;
         }
         User userByLogin = userService.getUserByLogin(user.getLogin());
-        req.getSession().setAttribute("role",user.getRole());
-        if (userByLogin.getRole().equals("user")) {
+        req.getSession().setAttribute("role",userByLogin.getRole());
+        resp.sendRedirect("/admin");
 
-            req.getRequestDispatcher("user.jsp").forward(req, resp);
-        } else if (userByLogin.getRole().equals("admin")){
-            resp.sendRedirect("/admin");
-        } else {
-            req.setAttribute("check",true);
-            req.getRequestDispatcher("/index.jsp").forward(req, resp);
-        }
 
     }
 }
